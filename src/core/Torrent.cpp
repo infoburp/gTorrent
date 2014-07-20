@@ -17,60 +17,15 @@ string getTimeString(boost::int64_t time_s)
 	if ( time_s <= 0 )
 		return "???";
 
-	boost::int64_t time_m = (time_s - (fmod (time_s, time_s / 60))) / 60;
-	boost::int64_t time_h = (time_m - (fmod (time_m, time_m / 60))) / 60;
-	boost::int64_t time_d = (time_h - (fmod (time_h, time_h / 24))) / 24;
-
 	ostringstream time_string;
-
-	if(time_s <= 0)
-	{
-		return string();
-	}
-	if(time_s < 60)
-	{
-		if(time_s == 1)
-		{
-			time_string << time_s << " Second";
-		}
-		else
-		{
-			time_string << time_s << " Seconds";
-		}
-	}
-	if(time_s >= 60 && time_s < (60 * 60))
-	{
-		if(time_m == 1)
-		{
-			time_string << time_m << " Minute, ";
-		}
-		else
-		{
-			time_string << time_m << " Minutes, ";
-		}
-	}
-	if(time_m >= 60 && time_m < (60 * 60))
-	{
-		if(time_h == 1)
-		{
-			time_string << time_h << " Hour, ";
-		}
-		else
-		{
-			time_string << time_h << " Hours, ";
-		}
-	}
-	if(time_h >= 24)
-	{
-		if(time_h == 1)
-		{
-			time_string << time_d << " Day, ";
-		}
-		else
-		{
-			time_string << time_d << " Days, ";
-		}
-	}
+	int time = time_s,day,hour,min,sec;
+	day=time/(3600*24);
+	hour=time/3600;
+	time=time%3600;
+	min=time/60;
+	time=time%60;
+	sec=time;
+	time_string << day << "::" << hour << ":" << min << ":" << sec;
 	return time_string.str();
 }
 
@@ -83,17 +38,21 @@ string getFileMetaDataString(boost::int64_t file_size, bool rate)
 
 	ostringstream file_meta_string;
 	array<string, 4> items   = {" GB"," MB"," KB"," B"};
-	array<int, 4> item_sizes = {intPow(1024,3),intPow(1024,2),1024,1};
 
-	for_each(items.begin(), items.end(), [&](string items, int item_sizes)
+	for_each(items.begin(), items.end(), [&](string items)
 	{
-		file_meta_string << fixed << setprecision(3) << (file_size / item_sizes);
-		file_meta_string << items;
+		array<int, 4> item_sizes = {intPow(1024,3),intPow(1024,2),1024,1};
 
-		if (rate)
+		for_each(item_sizes.begin(), item_sizes.end(), [&](int item_sizes)
 		{
-			file_meta_string << "/s";
-		}
+			file_meta_string << fixed << setprecision(3) << (file_size / item_sizes);
+			file_meta_string << items;
+			if (rate)
+			{
+				file_meta_string << "/s";
+			}
+			file_meta_string << " ";
+		});
 	});
 
 	return file_meta_string.str();
