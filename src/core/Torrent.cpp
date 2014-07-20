@@ -270,7 +270,7 @@ unsigned int Torrent::getUploadRate()
 
 string Torrent::getTextUploadRate()
 {
-	return getRateString(getUploadRate());
+	return getFileMetaDataString(getUploadRate(),1);
 }
 
 unsigned int Torrent::getDownloadRate()
@@ -280,7 +280,7 @@ unsigned int Torrent::getDownloadRate()
 
 string Torrent::getTextDownloadRate()
 {
-	return getRateString(getDownloadRate());
+	return getFileMetaDataString(getDownloadRate(),1);
 }
 
 boost::int64_t Torrent::getTotalUploaded()
@@ -290,7 +290,7 @@ boost::int64_t Torrent::getTotalUploaded()
 
 string Torrent::getTextTotalUploaded()
 {
-	return getFileSizeString(getTotalUploaded());
+	return getFileMetaDataString(getTotalUploaded(),0);
 }
 
 
@@ -301,7 +301,7 @@ boost::int64_t Torrent::getTotalDownloaded()
 
 string Torrent::getTextTotalDownloaded()
 {
-	return getFileSizeString(getTotalDownloaded());
+	return getFileMetaDataString(getTotalDownloaded(),0);
 }
 
 boost::int64_t Torrent::getSize()
@@ -311,7 +311,7 @@ boost::int64_t Torrent::getSize()
 
 string Torrent::getTextSize()
 {
-	return getFileSizeString(getSize());
+	return getFileMetaDataString(getSize(),0);
 }
 
 boost::int64_t Torrent::getRemaining()
@@ -321,7 +321,7 @@ boost::int64_t Torrent::getRemaining()
 
 string Torrent::getTextRemaining()
 {
-	return getFileSizeString(getRemaining());
+	return getFileMetaDataString(getRemaining(),0);
 }
 
 boost::int64_t Torrent::getTorrentSize()
