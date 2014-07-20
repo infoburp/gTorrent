@@ -3,6 +3,15 @@
 #include "Log.hpp"
 #define T_PPM 1000000.f
 
+int intPow(int x, int p)
+{
+	if (p == 0) return 1;
+	if (p == 1) return x;
+	int tmp = intPow(x, p/2);
+	if (p%2 == 0) return tmp * tmp;
+	else return x * tmp * tmp;
+}
+
 string getTimeString(boost::int64_t time_s)
 {
 	if ( time_s <= 0 )
@@ -65,58 +74,39 @@ string getTimeString(boost::int64_t time_s)
 	return time_string.str();
 }
 
-string getRateString(boost::int64_t file_rate)
+string getFileMetaDataString(boost::int64_t file_size, bool rate)
 {
-	ostringstream file_rate_string;
-
-	if (file_rate <= 0)
-	{
-		return string();
-	}
-	if (file_rate >= (1024 * 1024 * 1024))
-	{
-		file_rate_string <<  fixed << setprecision(3) << (file_rate / 1024 / 1024 / 1024) << " GB/s";
-	}
-	if (file_rate >= (1024 * 1024) && file_rate < (1024 * 1024 * 1024))
-	{
-		file_rate_string <<  fixed << setprecision(3) << (file_rate / 1024 / 1024) << " MB/s";
-	}
-	if (file_rate >= 1024 && file_rate < (1024 * 1024))
-	{
-		file_rate_string << fixed << setprecision(3) << (file_rate / 1024) << " KB/s";
-	}
-	if (file_rate > 0 && file_rate < 1024)
-	{
-		file_rate_string << file_rate << " B/s";
-	}
-	return file_rate_string.str();
-}
-
-string getFileSizeString(boost::int64_t file_size)
-{
-	ostringstream file_size_string;
-
 	if (file_size <= 0)
 	{
 		return string();
 	}
-	if (file_size >= (1024 * 1024 * 1024))
+
+	ostringstream file_meta_string;
+	array<string, 4> items   = {" GB"," MB"," KB"," B"};
+	array<int, 4> item_sizes = {intPow(1024,3),intPow(1024,2),1024,1};
+
+	for_each(items.begin(), items.end(), [&](string items, int item_sizes)
 	{
-		file_size_string <<  fixed << setprecision(3) << (file_size / 1024 / 1024 / 1024) << " GB";
-	}
-	if (file_size >= (1024 * 1024) && file_size < (1024 * 1024 * 1024))
-	{
-		file_size_string <<  fixed << setprecision(3) << (file_size / 1024 / 1024) << " MB";
-	}
-	if (file_size >= 1024 && file_size < (1024 * 1024))
-	{
-		file_size_string << fixed << setprecision(3) << (file_size / 1024) << " KB";
-	}
-	if (file_size > 0 && file_size < 1024)
-	{
-		file_size_string << file_size << " B";
-	}
-	return file_size_string.str();
+		file_meta_string << fixed << setprecision(3) << (file_size / item_sizes);
+		file_meta_string << items;
+
+		if (rate)
+		{
+			file_meta_string << "/s";
+		}
+	});
+
+	return file_meta_string.str();
+}
+
+string getRateString(boost::int64_t file_rate)
+{
+	return getFileMetaDataString(file_rate,1);
+}
+
+string getFileSizeString(boost::int64_t file_size)
+{
+	return getFileMetaDataString(file_size,0);
 }
 
 Torrent::Torrent(string path) :
@@ -260,8 +250,8 @@ string Torrent::getTextState()
 		ostringstream o;
 		int precision = 1;
 		if (m_torrent_params.ti != NULL) //m_torrent_params.ti is not initial initialized for magnet links
-			if (m_torrent_params.ti->total_size() < 1024 * 1024 * 1024)
-				precision = 0;//Set 0 decimal places if file is less than 1 gig.
+			//if (m_torrent_params.ti->total_size() < intPow(1024,3)
+				//precision = 0;//Set 0 decimal places if file is less than 1 gig.
 		o << fixed << setprecision(precision) << getTotalProgress() << " %";
 		return o.str();
 		break;

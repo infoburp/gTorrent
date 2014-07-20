@@ -38,7 +38,7 @@ GtkMainWindow::GtkMainWindow() :
 	header->add(*add_torrent_btn);
 
 	Gtk::Button *add_link_btn = Gtk::manage(new Gtk::Button());
-	add_link_btn->set_image_from_icon_name("edit-paste");
+	add_link_btn->set_image_from_icon_name("gtk-paste");
 	add_link_btn->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onAddMagnetBtnClicked));
 	header->add(*add_link_btn);
 
@@ -71,7 +71,7 @@ GtkMainWindow::GtkMainWindow() :
 
 
 	Gtk::Button *remove_btn = Gtk::manage(new Gtk::Button());
-	remove_btn->set_image_from_icon_name("gtk-cancel");
+	remove_btn->set_image_from_icon_name("gtk-delete");
 	header->add(*remove_btn);
 
 	Gtk::VSeparator *separator3 = Gtk::manage(new Gtk::VSeparator());
@@ -123,7 +123,7 @@ void GtkMainWindow::onAddBtnClicked()
 	switch (result)
 	{
 	case Gtk::RESPONSE_OK:
-		for (auto & f : fc.get_filenames())
+		for (auto &f : fc.get_filenames())
 		{
 			shared_ptr<Torrent> t = m_core->addTorrent(f.c_str());
 			if (t)//Checks if t is not null
