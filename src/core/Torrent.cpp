@@ -7,8 +7,8 @@ int intPow(int x, int p)
 {
 	if (p == 0) return 1;
 	if (p == 1) return x;
-	int tmp = intPow(x, p/2);
-	if (p%2 == 0) return tmp * tmp;
+	int tmp = intPow(x, p / 2);
+	if (p % 2 == 0) return tmp * tmp;
 	else return x * tmp * tmp;
 }
 
@@ -17,13 +17,13 @@ string getTimeString(boost::int64_t time_s)
 	if ( time_s <= 0 )
 		return "???";
 	ostringstream time_string;
-	int time = time_s,day,hour,min,sec;
-	day=time/(3600*24);
-	hour=time/3600;
-	time=time%3600;
-	min=time/60;
-	time=time%60;
-	sec=time;
+	int time = time_s, day, hour, min, sec;
+	day = time / (3600 * 24);
+	hour = time / 3600;
+	time = time % 3600;
+	min = time / 60;
+	time = time % 60;
+	sec = time;
 	time_string << day << "::" << hour << ":" << min << ":" << sec;
 	return time_string.str();
 }
@@ -36,11 +36,11 @@ string getFileSizeString(boost::int64_t file_size)
 	}
 
 	ostringstream file_size_string;
-	array<string, 4> items   = {" GB"," MB"," KB"," B"};
+	array<string, 4> items   = {" GB", " MB", " KB", " B"};
 
 	for_each(items.begin(), items.end(), [&](string items)
 	{
-		array<int, 4> item_sizes = {intPow(1024,3),intPow(1024,2),1024,1};
+		array<int, 4> item_sizes = {intPow(1024, 3), intPow(1024, 2), 1024, 1};
 
 		for_each(item_sizes.begin(), item_sizes.end(), [&](int item_sizes)
 		{
@@ -115,33 +115,33 @@ string Torrent::getTextState()
 {
 	switch (getState())
 	{
-		case libtorrent::torrent_status::downloading_metadata:
-			return "Leeching Metadata";
-			break;
-		case libtorrent::torrent_status::queued_for_checking:
-			return "Queued For Check";
-			break;
-		case libtorrent::torrent_status::finished:
-			return "Finished";
-			break;
-		case libtorrent::torrent_status::allocating:
-			return "Allocating";
-			break;
-		case libtorrent::torrent_status::checking_resume_data:
-			return "Checking Resume";
-			break;
-		case libtorrent::torrent_status::checking_files:
-			return "Checking Files";
-			break;
-		case libtorrent::torrent_status::seeding:
-			return "Seeding";
-			break;
-		case libtorrent::torrent_status::downloading:
-			return "Leeching";
-			break;
+	case libtorrent::torrent_status::downloading_metadata:
+		return "Leeching Metadata";
+		break;
+	case libtorrent::torrent_status::queued_for_checking:
+		return "Queued For Check";
+		break;
+	case libtorrent::torrent_status::finished:
+		return "Finished";
+		break;
+	case libtorrent::torrent_status::allocating:
+		return "Allocating";
+		break;
+	case libtorrent::torrent_status::checking_resume_data:
+		return "Checking Resume";
+		break;
+	case libtorrent::torrent_status::checking_files:
+		return "Checking Files";
+		break;
+	case libtorrent::torrent_status::seeding:
+		return "Seeding";
+		break;
+	case libtorrent::torrent_status::downloading:
+		return "Leeching";
+		break;
 		//case libtorrent::torrent_status::paused:
-			//return "Paused";
-			//break;
+		//return "Paused";
+		//break;
 	}
 }
 
