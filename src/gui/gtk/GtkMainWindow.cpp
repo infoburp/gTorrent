@@ -51,18 +51,18 @@ GtkMainWindow::GtkMainWindow() :
 
 	header->add(*btn_connect);
 	header->add(*separator0);
+	header->add(*btn_properties);
+	header->add(*separator1);
 	header->add(*btn_add_torrent);
 	header->add(*btn_add_link);
-	header->add(*separator1);
-	header->add(*btn_up);
-	header->add(*btn_down);
+	header->add(*separator2);
+	header->add(*btn_remove);
 	header->add(*btn_resume);
 	header->add(*btn_pause);
-	header->add(*btn_remove);
-	header->add(*separator2);
-	header->add(*btn_properties);
+	header->add(*btn_up);
+	header->add(*btn_down);
+
 	this->set_titlebar(*header);
-	this->maximize();
 	this->show_all();
 }
 
