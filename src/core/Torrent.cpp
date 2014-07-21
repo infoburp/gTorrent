@@ -28,28 +28,31 @@ string getTimeString(boost::int64_t time_s)
 	return time_string.str();
 }
 
-string getFileSizeString(boost::int64_t file_size)
+string Torrent::getTextFileSize(boost::int64_t fs)
 {
-	if (file_size <= 0)
+	std::ostringstream tfs;
+	tfs << fixed << setprecision(3);
+	if (fs <= 0)
 	{
-		return string();
+		tfs << string();
 	}
-
-	ostringstream file_size_string;
-	array<string, 4> items   = {" GB", " MB", " KB", " B"};
-
-	for_each(items.begin(), items.end(), [&](string items)
+	else if (fs > 0 && fs < 1024)
 	{
-		array<int, 4> item_sizes = {intPow(1024, 3), intPow(1024, 2), 1024, 1};
-
-		for_each(item_sizes.begin(), item_sizes.end(), [&](int item_sizes)
-		{
-			file_size_string << fixed << setprecision(3) << " " << (file_size / item_sizes);
-			file_size_string << items;
-		});
-	});
-
-	return file_size_string.str();
+		tfs << fs << " B";
+	}
+	else if (fs >= 1024 && fs < intPow(1024,2))
+	{
+		tfs << fs / 1024 << " KB";
+	}
+	else if (fs >= intPow(1024,2 && fs < intPow(1024,3))
+	{
+		tfs << (fs / intPow(1024,2) << " MB";
+	}
+	else if (fs >= intPow(1024,3))
+	{
+		tfs << fs / intPow(1024,3) << " GB";
+	}
+	return tfs.str();
 }
 
 string getRateString(boost::int64_t file_rate)
