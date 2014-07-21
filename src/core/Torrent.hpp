@@ -103,7 +103,9 @@ public:
 	return upload_rate_string.str(); }
 
 	// Returns a friendly string for the current download rate
-	inline string getTextDownloadRate() { return getRateString(getDownloadRate()); }
+	inline string getTextDownloadRate() { ostringstream download_rate_string;
+	download_rate_string << getFileSizeString(getDownloadRate()) << "/s";
+	return download_rate_string.str(); }
 
 	// Returns a friendly string for the current upload total
 	inline string getTextTotalUploaded() { return getFileSizeString(getTotalUploaded()); }

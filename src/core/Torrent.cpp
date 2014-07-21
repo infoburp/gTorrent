@@ -115,22 +115,33 @@ string Torrent::getTextState()
 {
 	switch (getState())
 	{
-	case libtorrent::torrent_status::checking_files:
-		return "Checking";
-		break;
-	case libtorrent::torrent_status::seeding:
-		return "Seeding";
-		break;
-	case libtorrent::torrent_status::downloading:
-	default:
-		ostringstream o;
-		int precision = 1;
-		if (m_torrent_params.ti != NULL) //m_torrent_params.ti is not initial initialized for magnet links
-			//if (m_torrent_params.ti->total_size() < intPow(1024,3)
-				//precision = 0;//Set 0 decimal places if file is less than 1 gig.
-		o << fixed << setprecision(precision) << getTotalProgress() << " %";
-		return o.str();
-		break;
+		case libtorrent::torrent_status::downloading_metadata:
+			return "Leeching Metadata";
+			break;
+		case libtorrent::torrent_status::queued_for_checking:
+			return "Queued For Check";
+			break;
+		case libtorrent::torrent_status::finished:
+			return "Finished";
+			break;
+		case libtorrent::torrent_status::allocating:
+			return "Allocating";
+			break;
+		case libtorrent::torrent_status::checking_resume_data:
+			return "Checking Resume";
+			break;
+		case libtorrent::torrent_status::checking_files:
+			return "Checking Files";
+			break;
+		case libtorrent::torrent_status::seeding:
+			return "Seeding";
+			break;
+		case libtorrent::torrent_status::downloading:
+			return "Leeching";
+			break;
+		//case libtorrent::torrent_status::paused:
+			//return "Paused";
+			//break;
 	}
 }
 

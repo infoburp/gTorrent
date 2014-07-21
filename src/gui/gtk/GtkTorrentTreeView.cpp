@@ -87,6 +87,7 @@ void GtkTorrentTreeView::setupColumns()
 	Gtk::CellRendererProgress *cell = nullptr;
 
 	this->append_column("Queue", m_cols.m_col_queue);
+	this->append_column("Status", m_cols.m_col_queue);
 	this->append_column("Age", m_cols.m_col_age);
 	this->append_column("ETA", m_cols.m_col_eta);
 	this->append_column("Name", m_cols.m_col_name);
@@ -129,6 +130,7 @@ void GtkTorrentTreeView::addCell(shared_ptr<Torrent> &t)
 	row[m_cols.m_col_age]       = t->getTextActiveTime();
 	row[m_cols.m_col_eta]       = t->getTextEta();
 	row[m_cols.m_col_name]      = t->getHandle().name();
+	row[m_cols.m_col_status]		= t->getTextState();
 	row[m_cols.m_col_seeders]   = t->getTotalSeeders();
 	row[m_cols.m_col_leechers]  = t->getTotalLeechers();
 	row[m_cols.m_col_ul_total]  = t->getTextTotalUploaded();
@@ -147,6 +149,7 @@ void GtkTorrentTreeView::updateCells()
 
 		c[m_cols.m_col_age]      = t->getTextActiveTime();
 		c[m_cols.m_col_eta]      = t->getTextEta();
+		c[m_cols.m_col_status]	 = t->getTextState();
 		c[m_cols.m_col_percent]  = t->getTotalProgress();
 		c[m_cols.m_col_seeders]  = t->getTotalSeeders();
 		c[m_cols.m_col_leechers] = t->getTotalLeechers();

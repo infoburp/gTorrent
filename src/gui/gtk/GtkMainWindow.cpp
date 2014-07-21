@@ -21,97 +21,49 @@ GtkMainWindow::GtkMainWindow() :
 	header = Gtk::manage(new Gtk::HeaderBar());
 	header->set_show_close_button(true);
 
-	Gtk::Button *btn_add_link    = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_add_torrent = Gtk::manage(new Gtk::Button());
 	Gtk::Button *btn_connect     = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_down        = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_pause       = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_properties  = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_remove      = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_resume      = Gtk::manage(new Gtk::Button());
-	Gtk::Button *btn_up          = Gtk::manage(new Gtk::Button());
-	Gtk::VSeparator *separator0  = Gtk::manage(new Gtk::VSeparator());
+	Gtk::VSeparator *separator0 = Gtk::manage(new Gtk::VSeparator());
+	Gtk::Button *btn_add_torrent = Gtk::manage(new Gtk::Button());
+	Gtk::Button *btn_add_link    = Gtk::manage(new Gtk::Button());
 	Gtk::VSeparator *separator1  = Gtk::manage(new Gtk::VSeparator());
+	Gtk::Button *btn_up          = Gtk::manage(new Gtk::Button());
+	Gtk::Button *btn_down        = Gtk::manage(new Gtk::Button());
+	Gtk::Button *btn_resume      = Gtk::manage(new Gtk::Button());
+	Gtk::Button *btn_pause       = Gtk::manage(new Gtk::Button());
+	Gtk::Button *btn_remove      = Gtk::manage(new Gtk::Button());
 	Gtk::VSeparator *separator2  = Gtk::manage(new Gtk::VSeparator());
-	Gtk::VSeparator *separator3 = Gtk::manage(new Gtk::VSeparator());
-	
+	Gtk::Button *btn_properties  = Gtk::manage(new Gtk::Button());
+
 	btn_add_link->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onAddMagnetBtnClicked));
 	btn_add_torrent->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onAddBtnClicked));
 	btn_pause->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onPauseBtnClicked));
 	btn_resume->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onResumeBtnClicked));
 
-	btn_add_link->set_image_from_icon_name    ("edit-paste");
-	btn_add_torrent->set_image_from_icon_name ("gtk-add");
 	btn_connect->set_image_from_icon_name     ("gtk-directory");
-	btn_down->set_image_from_icon_name        ("gtk-go-down");
-	btn_pause->set_image_from_icon_name       ("media-playback-pause");
-	btn_properties->set_image_from_icon_name  ("gtk-properties");
-	btn_remove->set_image_from_icon_name      ("gtk-cancel");
-	btn_resume->set_image_from_icon_name      ("media-playback-start");
+	btn_add_torrent->set_image_from_icon_name ("gtk-add");
+	btn_add_link->set_image_from_icon_name    ("edit-paste");
 	btn_up->set_image_from_icon_name          ("gtk-go-up");
+	btn_down->set_image_from_icon_name        ("gtk-go-down");
+	btn_resume->set_image_from_icon_name      ("media-playback-start");
+	btn_pause->set_image_from_icon_name       ("media-playback-pause");
+	btn_remove->set_image_from_icon_name      ("gtk-cancel");
+	btn_properties->set_image_from_icon_name  ("gtk-properties");
 
-	//TODO:align properties button to right of top bar
-	//btn_properties->set_alignment(1.0f,0.0f);
-	header->add(*btn_add_torrent);
-	header->add(*btn_add_link);
 	header->add(*btn_connect);
 	header->add(*separator0);
-
-	Gtk::Button *add_torrent_btn = Gtk::manage(new Gtk::Button());
-	add_torrent_btn->set_image_from_icon_name("gtk-add");
-	add_torrent_btn->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onAddBtnClicked));
-	header->add(*add_torrent_btn);
-
-	Gtk::Button *add_link_btn = Gtk::manage(new Gtk::Button());
-	add_link_btn->set_image_from_icon_name("gtk-paste");
-	add_link_btn->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onAddMagnetBtnClicked));
-	header->add(*add_link_btn);
-
-	Gtk::VSeparator *separator = Gtk::manage(new Gtk::VSeparator());
-	header->add(*separator);
-
-	Gtk::Button *resume_btn = Gtk::manage(new Gtk::Button());
-	resume_btn->set_image_from_icon_name("media-playback-start");
-	resume_btn->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onResumeBtnClicked));
-	header->add(*resume_btn);
-
-	Gtk::Button *pause_btn = Gtk::manage(new Gtk::Button());
-	pause_btn->set_image_from_icon_name("media-playback-pause");
-	pause_btn->signal_clicked().connect(sigc::mem_fun(*this, &GtkMainWindow::onPauseBtnClicked));
-
-	header->add(*pause_btn);
-	header->add(*btn_pause);
-	header->add(*btn_resume);
-	header->add(*btn_remove);
+	header->add(*btn_add_torrent);
+	header->add(*btn_add_link);
 	header->add(*separator1);
-	header->add(*btn_down);
 	header->add(*btn_up);
-	header->add(*btn_properties);
+	header->add(*btn_down);
+	header->add(*btn_resume);
+	header->add(*btn_pause);
+	header->add(*btn_remove);
 	header->add(*separator2);
-
-	Gtk::Button *remove_btn = Gtk::manage(new Gtk::Button());
-	remove_btn->set_image_from_icon_name("gtk-delete");
-	header->add(*remove_btn);
-
-	header->add(*separator3);
-
-	Gtk::Button *properties_btn = Gtk::manage(new Gtk::Button());
-	properties_btn->set_image_from_icon_name("gtk-properties");
-	//TODO:align properties button to right of top bar
-	//properties_btn->set_alignment(1.0f,0.0f);
-
-	header->add(*properties_btn);
+	header->add(*btn_properties);
 	this->set_titlebar(*header);
-	//status = Gtk::manage(new Gtk::StatusBar());
-	//this->set_decorated(FALSE);
-	//this->set_hide_titlebar_when_maximized(TRUE);
 	this->maximize();
 	this->show_all();
-	//status = Gtk::manage(new Gtk::StatusBar());
-	//this->get_window().set_decoration(64);//WMDecoration.BORDER
-	//this.get_window().set_decorations(Gdk.WMDecoration.BORDER);
-	//this->set_decorations(FALSE);
-	//this->set_decorated(FALSE);
 }
 
 bool GtkMainWindow::onSecTick()
@@ -185,10 +137,10 @@ void GtkMainWindow::onRemoveBtnClicked()
 	//remove the torrent from treeview
 	//torrent.remove();
 }
-/*
+
 void GtkMainWindow::onPropertiesBtnClicked()
 {
-	GtkPropertiesWindow d;
+	/*GtkPropertiesWindow d;
 	d.set_transient_for(*this);
 	int r = d.run();
 
@@ -197,8 +149,8 @@ void GtkMainWindow::onPropertiesBtnClicked()
 	case Gtk::RESPONSE_OK:
 		//TODO: Store slected settings to .config file
 		break;
-	}
-}*/
+	}*/
+}
 
 bool GtkMainWindow::onDestroy(GdkEventAny *event)
 {
